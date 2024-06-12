@@ -1,4 +1,7 @@
+import { useRouter } from 'next/navigation';
+
 export default function Carousel(props) {
+  const router = useRouter();
   const posts = props.posts;
   const categories = [
     "Technology",
@@ -10,6 +13,18 @@ export default function Carousel(props) {
     "Health",
     "Travel",
   ];
+
+  // Define mapping of category names to background images
+  const categoryBackgroundImages = {
+    Technology: '/assets/Technology.jpg',
+    Business: '/assets/Business.jpg',
+    Politics: '/assets/Politics.jpg',
+    Science: '/assets/Science.jpg',
+    Design: '/assets/Design.jpg',
+    Culture: '/assets/Culture.jpg',
+    Health: '/assets/Health.jpg',
+    Travel: '/assets/Travel.jpg',
+  };
 
   // Use the find function to get the first post for each category
   const carouselPosts = categories
@@ -40,32 +55,20 @@ export default function Carousel(props) {
           <div
             className={`carousel-item ${key === 0 ? "active" : ""}`}
             key={key}
+            style={{
+              background: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url(${categoryBackgroundImages[post.category]}) center/cover no-repeat`
+            }}
           >
-            <svg
-              className="bd-placeholder-img"
-              width="100%"
-              height="100%"
-              xmlnsXlink="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-              preserveAspectRatio="xMidYMid slice"
-              focusable="false"
-            >
-              <rect
-                width="100%"
-                height="100%"
-                fill="var(--bs-secondary-color)"
-              ></rect>
-            </svg>
             <div className="container">
               <div className="carousel-caption">
                 <h1>{post.title}</h1>
                 <p>{post.content}</p>
                 <p>
                   <button
-                    onClick={() => handleDelete(post.id)}
+                    onClick={() => router.push(`/${post.author.name}/${post.id}`)}
                     className="btn btn-lg btn-primary"
                   >
-                    Delete
+                    Continue
                   </button>
                 </p>
               </div>
@@ -93,9 +96,4 @@ export default function Carousel(props) {
       </button>
     </div>
   );
-}
-
-function handleDelete(id) {
-  // Handle the delete action
-  console.log(`Delete post with id: ${id}`);
 }

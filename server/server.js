@@ -2,11 +2,74 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import prisma from "../lib/prisma.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const secretKey = "Achutham@123";
+
+app.post("/register", async (req, res) => {
+  try {
+    const { email, username, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await prisma.user.create({
+      data: {
+        name: username,
+        email,
+        password: hashedPassword,
+      },
+    });
+    const token = jwt.sign({ userId: newUser.id }, secretKey, {
+      expiresIn: "1h",
+    });
+    res.json({ newUser, token });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Failed to add new user" });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    console.log("Received username:", username);
+    console.log("Received password:", password);
+
+    if (!username || !password) {
+      return res
+        .status(400)
+        .json({ error: "Username and password are required" });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { name: username },
+    });
+
+    if (!user) {
+      console.log("User not found");
+      return res.status(400).json({ error: "Invalid username or password" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      console.log("Invalid password");
+      return res.status(400).json({ error: "Invalid username or password" });
+    }
+
+    const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: "1h" });
+
+    res.json({ token });
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ error: "Login failed" });
+  }
+});
 
 async function getPosts() {
   try {
@@ -34,24 +97,21 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.post("/add", async (req, res) => {
+app.post("/add/:id", async (req, res) => {
   try {
-    const title = req.body.title;
-    const content = req.body.content;
+    const id = req.params.id;
+    const { title, content } = req.body;
     const result = await prisma.post.create({
       data: {
         title,
         content,
         published: true,
-        author: {
-          create: {
-            name: "Nipun",
-          },
-        },
+        authorId: id,
       },
     });
     res.json({ result });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to add post" });
   }
 });
@@ -86,10 +146,10 @@ app.get("/user/:id", async (req, res) => {
   res.json(post);
 });
 
-async function getUserPosts(username) {
+async function getUserPosts(id) {
   try {
     const posts = await prisma.user.findMany({
-      where: { name: username },
+      where: { id: id },
       include: {
         posts: {
           select: {
@@ -97,6 +157,7 @@ async function getUserPosts(username) {
             content: true,
             category: true,
             createdAt: true,
+            id: true,
           },
         },
       },
@@ -108,9 +169,9 @@ async function getUserPosts(username) {
   }
 }
 
-app.get("/:user", async (req, res) => {
-  const user = req.params.user;
-  const posts = await getUserPosts(user);
+app.get("/:userID", async (req, res) => {
+  const id = req.params.userID;
+  const posts = await getUserPosts(id);
   res.json(posts);
 });
 

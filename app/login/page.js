@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import RedirectIfNoToken from "../../components/RedirectIfNoToken";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -17,14 +19,18 @@ export default function Login() {
     console.log(password);
 
     try {
-      const response = await axios.post("http://localhost:8800/login", {
-        username,
-        password
-      }, {
-        headers: {
-          "Content-Type": "application/json"
+      const response = await axios.post(
+        "http://localhost:8800/login",
+        {
+          username,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      });
+      );
 
       if (response.status === 200) {
         const data = response.data;
@@ -43,12 +49,11 @@ export default function Login() {
     <RedirectIfNoToken>
       <div className="sign-in">
         <form onSubmit={handleSubmit}>
-          <img
-            className="mb-4"
-            src="/docs/5.3/assets/brand/bootstrap-logo.svg"
-            alt=""
-            width="72"
-            height="57"
+          <Image
+            src="/assets/572.png"
+            alt="Testimonial Image"
+            width={190}
+            height={100}
           />
           <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
           <div className="form-floating">
@@ -67,7 +72,7 @@ export default function Login() {
           <div className="form-floating">
             <input
               type="password"
-              className="form-control"
+              className="form-control mt-3"
               id="floatingPassword"
               placeholder="Password"
               name="password"
@@ -89,9 +94,10 @@ export default function Login() {
               Remember me
             </label>
           </div>
-          <button className="btn btn-primary w-100 py-2" type="submit">
+          <button className="btn btn-primary w-100 py-2 mb-3" type="submit">
             Sign in
           </button>
+          <Link href="/register">Don't have an account yet?</Link>
           <p className="mt-5 mb-3 text-body-secondary">© 2017–2024</p>
         </form>
       </div>

@@ -42,9 +42,7 @@ a {
   flex: 2;
   height: 25.5rem;
 }
-.carousel-caption {
-  padding-bottom: 10%;
-}
+
 .form-container {
   max-width: 800px;
   margin: 50px auto;
@@ -115,4 +113,38 @@ a {
 .add-post-button {
   margin-left: 5%;
   margin-bottom: -2%;
+}
+.testimonial-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5)
+  );
+}
+
+.testimonial-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  z-index: 0;
+}
+
+.carousel-caption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  color: #fff;
 }

@@ -5,7 +5,7 @@ import RedirectIfNoToken from "../../../components/RedirectIfNoToken";
 import { useRouter } from "next/navigation";
 
 export default function Add() {
-  const [input, setInput] = useState({ title: "", content: "" });
+  const [input, setInput] = useState({ title: "", content: "", category: "" });
   const [userId, setUserId] = useState(null);
   const router = useRouter();
 
@@ -62,6 +62,14 @@ export default function Add() {
             id="title"
             value={input.title}
             placeholder="Title"
+          />
+          <input
+            type="text"
+            name="category"
+            onChange={handleChange}
+            id="category"
+            value={input.category}
+            placeholder="Category"
           />
           <textarea
             name="content"

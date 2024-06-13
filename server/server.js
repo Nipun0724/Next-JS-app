@@ -100,12 +100,13 @@ app.get("/", async (req, res) => {
 app.post("/add/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const { title, content } = req.body;
+    const { title, content, category } = req.body;
     const result = await prisma.post.create({
       data: {
         title,
         content,
         published: true,
+        category,
         authorId: id,
       },
     });

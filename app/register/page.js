@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -37,18 +39,17 @@ export default function Register() {
   return (
     <div className="sign-in">
       <form onSubmit={handleSubmit}>
-        <img
-          className="mb-4"
-          src="/docs/5.3/assets/brand/bootstrap-logo.svg"
-          alt=""
-          width="72"
-          height="57"
+        <Image
+          src="/assets/572.png"
+          alt="Testimonial Image"
+          width={190}
+          height={100}
         />
         <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
         <div className="form-floating">
           <input
             type="text"
-            className="form-control"
+            className="form-control mb-3"
             id="floatingUsername"
             placeholder="Username"
             name="username"
@@ -61,7 +62,7 @@ export default function Register() {
         <div className="form-floating">
           <input
             type="email"
-            className="form-control"
+            className="form-control mb-3"
             id="floatingEmail"
             placeholder="name@example.com"
             name="email"

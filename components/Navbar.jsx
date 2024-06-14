@@ -67,7 +67,7 @@ export default function Navbar() {
               href="/"
               style={{ fontWeight: "bold", fontSize: "2em" }}
             >
-              Blogger
+              .blog
             </Link>
           </div>
 

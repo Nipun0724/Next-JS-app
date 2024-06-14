@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function Carousel(props) {
   const router = useRouter();
@@ -16,20 +16,28 @@ export default function Carousel(props) {
 
   // Define mapping of category names to background images
   const categoryBackgroundImages = {
-    Technology: '/assets/Technology.jpg',
-    Business: '/assets/Business.jpg',
-    Politics: '/assets/Politics.jpg',
-    Science: '/assets/Science.jpg',
-    Design: '/assets/Design.jpg',
-    Culture: '/assets/Culture.jpg',
-    Health: '/assets/Health.jpg',
-    Travel: '/assets/Travel.jpg',
+    Technology: "/assets/Technology.jpg",
+    Business: "/assets/Business.jpg",
+    Politics: "/assets/Politics.jpg",
+    Science: "/assets/Science.jpg",
+    Design: "/assets/Design.jpg",
+    Culture: "/assets/Culture.jpg",
+    Health: "/assets/Health.jpg",
+    Travel: "/assets/Travel.jpg",
   };
 
   // Use the find function to get the first post for each category
   const carouselPosts = categories
     .map((category) => posts.find((post) => post.category === category))
     .filter(Boolean); // Remove undefined values if no posts match a category
+
+  // Function to truncate content
+  const truncateContent = (content, maxLength) => {
+    if (content.length <= maxLength) {
+      return content;
+    }
+    return content.substring(0, maxLength) + "...";
+  };
 
   return (
     <div
@@ -56,16 +64,19 @@ export default function Carousel(props) {
             className={`carousel-item ${key === 0 ? "active" : ""}`}
             key={key}
             style={{
-              background: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url(${categoryBackgroundImages[post.category]}) center/cover no-repeat`
+              background: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url(${
+                categoryBackgroundImages[post.category]
+              }) center/cover no-repeat`,
             }}
           >
             <div className="container">
-              <div className="carousel-caption">
+              <div className="carousel-caption main-page">
                 <h1>{post.title}</h1>
-                <p>{post.content}</p>
+                <p>{truncateContent(post.content, 100)}</p>{" "}
+                {/* Truncate content to 100 characters */}
                 <p>
                   <button
-                    onClick={() => router.push(`/${post.author.name}/${post.id}`)}
+                    onClick={() => router.push(`/post/${post.id}`)}
                     className="btn btn-lg btn-primary"
                   >
                     Continue

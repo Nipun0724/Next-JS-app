@@ -52,7 +52,8 @@ a {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 #title,
-#content {
+#content,
+#category {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
@@ -147,4 +148,28 @@ a {
   transform: translate(-50%, -50%);
   z-index: 1;
   color: #fff;
+}
+.main-page {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  color: #fff;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

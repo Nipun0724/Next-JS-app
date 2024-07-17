@@ -20,7 +20,7 @@ export default function Login() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8800/login",
+        "https://next-js-app-ruddy-ten.vercel.app/login",
         {
           username,
           password,

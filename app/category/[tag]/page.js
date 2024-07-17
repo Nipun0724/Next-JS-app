@@ -6,7 +6,7 @@ export default async function Category({ params }) {
   let posts = [];
 
   try {
-    const response = await axios.get(`https://next-js-app-ruddy-ten.vercel.app/category/${tag}`);
+    const response = await axios.get(`http://localhost:8800/category/${tag}`);
     posts = response.data;
   } catch (error) {
     console.error("Error fetching posts:", error);

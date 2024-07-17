@@ -45,7 +45,7 @@ export default function User({ params }) {
 
   async function getPosts() {
     try {
-      const response = await axios.get(`https://next-js-app-ruddy-ten.vercel.app/${userID}`);
+      const response = await axios.get(`http://localhost:8800/${userID}`);
       const postsData = response.data;
       setPosts(postsData[0].posts);
     } catch (error) {

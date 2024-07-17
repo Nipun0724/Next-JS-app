@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default async function Post({ params }) {
   const id = params.id;
-  const postJSON = await axios.get(`https://next-js-app-ruddy-ten.vercel.app/user/${id}`);
+  const postJSON = await axios.get(`http://localhost:8800/user/${id}`);
   const post = postJSON.data;
   return (
     <article class="blog-post mx-5 my-5">

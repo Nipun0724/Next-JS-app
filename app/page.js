@@ -24,7 +24,7 @@ export default async function Home() {
 
 export async function getData() {
   try {
-    const res = await axios.get("https://next-js-app-ruddy-ten.vercel.app/");
+    const res = await axios.get("http://localhost:8800/");
     return res.data;
   } catch (err) {
     console.error(`Failed to fetch posts: ${err}`);

@@ -38,7 +38,7 @@ export default function Add() {
     if (!userId) return;
     try {
       const response = await axios.post(
-        `https://next-js-app-ruddy-ten.vercel.app/add/${userId}`,
+        `http://localhost:8800/add/${userId}`,
         input
       );
       if (response.status === 200) {

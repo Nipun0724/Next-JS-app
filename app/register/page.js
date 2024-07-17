@@ -19,7 +19,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:8800/register", {
+    const response = await fetch("https://next-js-app-ruddy-ten.vercel.app/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
